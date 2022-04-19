@@ -18,6 +18,15 @@ public class WaypointFollower : MonoBehaviour
             {
                 currentWaypointIndex = 0;
             }
+
+            if(transform.position.x < waypoints[currentWaypointIndex].transform.position.x)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
         }
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, Time.deltaTime * speed);
     }
