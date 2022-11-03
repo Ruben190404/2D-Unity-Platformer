@@ -22,6 +22,7 @@ C:/Users/lutei/Documents/2D-Unity-Platformer
     "memorysetup-bucket-allocator-granularity=16"
     "memorysetup-bucket-allocator-bucket-count=8"
     "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
     "memorysetup-main-allocator-block-size=16777216"
     "memorysetup-thread-allocator-block-size=16777216"
     "memorysetup-gfx-main-allocator-block-size=16777216"
