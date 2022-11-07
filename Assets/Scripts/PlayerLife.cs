@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     public static int lives = 3;
+    
+    
     
     [SerializeField] private Text livesText;
     [SerializeField] private AudioSource deathSoundEffect;
@@ -50,4 +53,15 @@ public class PlayerLife : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.name == "DeathZone")
+        {
+            Die();
+            lives -= 1;
+            ItemCollector.removeScore += 600;
+        }
+    }
+    
 }
