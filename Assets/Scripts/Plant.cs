@@ -1,38 +1,63 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Plant : MonoBehaviour
 {
-    public bool canShoot;
-    public float timer;
-    public float timeBetweenShots;
-    public GameObject bullet;
     public Transform firePoint;
-    public Transform target;
-    public Rigidbody2D rb;
+    public GameObject bulletPrefab;
+    public float timer = 0;
+    [SerializeField] public float fireRate = 1f;
+    // private bool _inCooldown = false;
+    [SerializeField]private bool attack = false;
+    private Animator anim;
+    
+    private enum State 
+    {
+        idle,
+        attacking,
+    }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!canShoot)
-        {
-            timer += Time.deltaTime;
-            if (timer > timeBetweenShots)
-            {
-                canShoot = true;
-                timer = 0;
-            }
-        }
+        UpdateAnimationState();
+        anim.SetBool("Attacking", true);
+    }
 
-        if (canShoot)
+    void Shoot()
+    {
+        // _inCooldown = true;
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        // StartCoroutine(Cooldown());
+    }
+    //
+    // private IEnumerator cooldownTimer()
+    // {
+    //     yield return new WaitForSeconds(fireRate);
+    //     _inCooldown = false;
+    // }
+
+    private void UpdateAnimationState()
+    {
+        State state;
+    
+        if (attack)
         {
-            canShoot = false;
-            Instantiate(bullet, firePoint.position, Quaternion.identity);
+            state = State.attacking;
         }
+        else
+        {
+            state = State.idle;
+        }
+        
+        anim.SetInteger("state", (int)state);
     }
 }
