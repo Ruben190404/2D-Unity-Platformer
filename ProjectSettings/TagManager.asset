@@ -8,6 +8,8 @@ TagManager:
   - Trap
   - Pineapple
   - PlayerObject
+  - Bullet
+  - Fire
   layers:
   - Default
   - TransparentFX

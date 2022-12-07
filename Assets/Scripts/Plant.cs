@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class Plant : MonoBehaviour
 {
@@ -11,53 +7,43 @@ public class Plant : MonoBehaviour
     public GameObject bulletPrefab;
     public float timer = 0;
     [SerializeField] public float fireRate = 1f;
-    // private bool _inCooldown = false;
-    [SerializeField]private bool attack = false;
     private Animator anim;
+    [SerializeField]private bool Animend;
     
-    private enum State 
-    {
-        idle,
-        attacking,
-    }
-
     private void Start()
     {
         anim = GetComponent<Animator>();
-    }
-
-    private void Update()
-    {
-        UpdateAnimationState();
         anim.SetBool("Attacking", true);
+        Animend = false;
     }
-
+    
     void Shoot()
     {
-        // _inCooldown = true;
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        // StartCoroutine(Cooldown());
     }
-    //
-    // private IEnumerator cooldownTimer()
-    // {
-    //     yield return new WaitForSeconds(fireRate);
-    //     _inCooldown = false;
-    // }
 
-    private void UpdateAnimationState()
+    void animStart()
     {
-        State state;
+        anim.SetBool("Attacking", true);
+        Animend = false;
+    }
+
+    void animEnd()
+    {
+        anim.SetBool("Attacking", false);
+        Animend = true;
+    }
     
-        if (attack)
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetType() == typeof(CircleCollider2D))
         {
-            state = State.attacking;
+            anim.SetTrigger("Hit");
         }
-        else
-        {
-            state = State.idle;
-        }
-        
-        anim.SetInteger("state", (int)state);
+    }
+
+    void Dead()
+    {
+        Destroy(gameObject);
     }
 }

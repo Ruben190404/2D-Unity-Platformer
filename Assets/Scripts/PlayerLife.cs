@@ -10,9 +10,7 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     public static int lives = 3;
-    
-    
-    
+
     [SerializeField] private Text livesText;
     [SerializeField] private AudioSource deathSoundEffect;
 
@@ -25,7 +23,6 @@ public class PlayerLife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.CompareTag("Trap"))
         {
             Die();
@@ -56,7 +53,7 @@ public class PlayerLife : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.name == "DeathZone")
+        if(col.name == "DeathZone" || col.CompareTag("Bullet") || col is CircleCollider2D)
         {
             Die();
             lives -= 1;
