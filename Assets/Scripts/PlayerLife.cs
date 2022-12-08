@@ -34,6 +34,7 @@ public class PlayerLife : MonoBehaviour
     private void Die()
     {
         deathSoundEffect.Play();
+        GetComponent<BoxCollider2D>().enabled = false;
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
     }
@@ -42,7 +43,6 @@ public class PlayerLife : MonoBehaviour
     {
         if (lives < 0)
         {
-            //load scene by name
             SceneManager.LoadScene("Game Over Scene");
         }
         else
